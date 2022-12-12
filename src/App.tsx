@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { createDevice, IPatcher } from "@rnbo/js";
 
 function App() {
+  let context: AudioContext;
+
+  context = new AudioContext();
+
+  const setup = async () => {
+      let rawPatcher = await fetch("./export/patch.export.json");
+
+      let patcher = await rawPatcher.json();
+
+      let device = await createDevice({ context, patcher });
+
+      // This connects the device to audio output, but you may still need to call context.resume()
+      // from a user-initiated function.
+      device.node.connect(context.destination);
+  };
+
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>bosh</p>
+      <button onClick={setup}>Hi</button>
+      <button onClick={() => context.resume()}>Start</button>
+      <button onClick={() => context.suspend()}>Stop</button>
     </div>
   );
 }
