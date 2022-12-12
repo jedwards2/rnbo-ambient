@@ -1,10 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
-import { createDevice, IPatcher } from "@rnbo/js";
+import { useEffect, useState } from 'react';
+import { createDevice } from "@rnbo/js";
 
 function App() {
-  let context: AudioContext;
+  let  [running, setRunning] = useState(false);
+  let [context, setContext] = useState(new AudioContext())
 
-  context = new AudioContext();
+  useEffect(() => {
+    setup()
+  }, [])
 
   const setup = async () => {
       let rawPatcher = await fetch("./export/patch.export.json");
@@ -13,20 +18,20 @@ function App() {
 
       let device = await createDevice({ context, patcher });
 
-      // This connects the device to audio output, but you may still need to call context.resume()
-      // from a user-initiated function.
       device.node.connect(context.destination);
   };
 
-
-
+  const onOffSwitch = async () => {
+    if (running) {
+      await context.suspend().then(() => setRunning(false));
+    } else {
+      await context.resume().then(() => setRunning(true));
+    }
+  }
 
   return (
     <div className="App">
-      <p>bosh</p>
-      <button onClick={setup}>Hi</button>
-      <button onClick={() => context.resume()}>Start</button>
-      <button onClick={() => context.suspend()}>Stop</button>
+      <button onClick={() => onOffSwitch()}>{running ? "Stop" : "Start"}</button>
     </div>
   );
 }
