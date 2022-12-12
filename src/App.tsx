@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
+import Header from './components/Header';
+import Home from './components/Home';
+import Drone from './components/Drone';
 import { useEffect, useState } from 'react';
 import { createDevice } from "@rnbo/js";
 
 function App() {
-  let  [running, setRunning] = useState(false);
+  let [screen, setScreen] = useState("home");
+
   let [context, setContext] = useState(new AudioContext())
 
   useEffect(() => {
@@ -21,17 +25,13 @@ function App() {
       device.node.connect(context.destination);
   };
 
-  const onOffSwitch = async () => {
-    if (running) {
-      await context.suspend().then(() => setRunning(false));
-    } else {
-      await context.resume().then(() => setRunning(true));
-    }
-  }
+
 
   return (
     <div className="App">
-      <button onClick={() => onOffSwitch()}>{running ? "Stop" : "Start"}</button>
+      <Header setScreen={setScreen} context={context}/>
+      {screen === "home" && <Home />}
+      {screen === "drone" && <Drone context={context}/>}
     </div>
   );
 }
