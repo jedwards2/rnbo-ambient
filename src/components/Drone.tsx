@@ -14,7 +14,7 @@ const Drone = ({context}: any) => {
   return (
     <div>
       <h1>Drone</h1>
-      <button onClick={() => onOffSwitch()}>{running ? "Stop" : "Start"}</button>
+      <img alt="play-pause" className="play-pause" src={running ? "images/pause.png" : "images/play.png"} onClick={() => onOffSwitch()} />
     </div>
   )
 }

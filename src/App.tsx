@@ -35,10 +35,13 @@ function App() {
 
   return (
     <div className="App">
-      <Header setScreen={setScreen} context={context} context440={context440}/>
-      {screen === "home" && <Home />}
-      {screen === "drone" && <Drone context={context}/>}
-      {screen === "drone440" && <Drone440 context={context440}/>}
+      <Header screen={screen} setScreen={setScreen} context={context} context440={context440}/>
+      <div id="main">
+        {screen === "home" && <Home />}
+        {screen === "drone" && <Drone context={context}/>}
+        {screen === "drone440" && <Drone440 context={context440}/>}
+      </div>
+
     </div>
   );
 }
