@@ -4,14 +4,14 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Drone from './components/Drone';
 import Drone440 from './components/Drone440';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createDevice } from "@rnbo/js";
 
 function App() {
   let [screen, setScreen] = useState("home");
-
-  let [context, setContext] = useState(new AudioContext())
-  let [context440, setContext440] = useState(new AudioContext())
+  let [context, setContext] = useState(new AudioContext());
+  let [context440, setContext440] = useState(new AudioContext());
+  let droneGain = useRef(context.createGain());
 
   useEffect(() => {
     setup();
@@ -28,6 +28,12 @@ function App() {
       let device440 = await createDevice({context: context440, patcher: patcher440});
 
       device.node.connect(context.destination);
+
+      droneGain.current.connect(context.destination);
+      droneGain.current.gain.value = 0;
+      device.node.connect(droneGain.current);
+
+
       device440.node.connect(context440.destination);
   };
 
@@ -38,7 +44,7 @@ function App() {
       <Header screen={screen} setScreen={setScreen} context={context} context440={context440}/>
       <div id="main">
         {screen === "home" && <Home />}
-        {screen === "drone" && <Drone context={context}/>}
+        {screen === "drone" && <Drone context={context} droneGain={droneGain}/>}
         {screen === "drone440" && <Drone440 context={context440}/>}
       </div>
 

@@ -40,3 +40,19 @@ html, body, .App, #main {
   background-color: white;
   border-radius: 50%;
 }
+
+.center-div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.volume-button {
+  background-color: white;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+}
