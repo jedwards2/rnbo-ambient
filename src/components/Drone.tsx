@@ -13,7 +13,7 @@ const Drone = ({context, droneGain}: any) => {
   }
 
   const handleChange = (e: any) => {
-    droneGain.current.gain.value = (e.target.value / 100) - 1
+    droneGain.current.gain.value = ((e.target.value / 100) * 3) - 1
   }
 
   return (
@@ -23,7 +23,7 @@ const Drone = ({context, droneGain}: any) => {
       <Slider
         key={droneGain.current.gain.value}
         size="small"
-        defaultValue={(droneGain.current.gain.value + 1) * 100}
+        defaultValue={0}
         min={0}
         max={100}
         onChange={(e) => handleChange(e)}

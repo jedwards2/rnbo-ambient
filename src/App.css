@@ -56,3 +56,8 @@ html, body, .App, #main {
   height: 3em;
   border-radius: 50%;
 }
+
+img:hover {
+  width: 5.1em;
+  height: 5.1em;
+}

@@ -30,7 +30,7 @@ function App() {
       device.node.connect(context.destination);
 
       droneGain.current.connect(context.destination);
-      droneGain.current.gain.value = 0;
+      droneGain.current.gain.value = -1;
       device.node.connect(droneGain.current);
 
 
