@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Slider from '@mui/material/Slider';
 
-const Drone = ({context, droneGain}: any) => {
+const Page = ({title, context, gainNode}: any) => {
   let  [running, setRunning] = useState(false);
 
    const onOffSwitch = async () => {
@@ -13,15 +13,15 @@ const Drone = ({context, droneGain}: any) => {
   }
 
   const handleChange = (e: any) => {
-    droneGain.current.gain.value = ((e.target.value / 100) * 3) - 1
+    gainNode.current.gain.value = ((e.target.value / 100) * 3) - 1
   }
 
   return (
     <div className="center-div">
-      <h1>Drone</h1>
+      <h1>{title}</h1>
       <img alt="play-pause" className="play-pause" src={running ? "images/pause.png" : "images/play.png"} onClick={() => onOffSwitch()} />
       <Slider
-        key={droneGain.current.gain.value}
+        key={gainNode.current.gain.value}
         size="small"
         defaultValue={0}
         min={0}
@@ -34,4 +34,4 @@ const Drone = ({context, droneGain}: any) => {
   )
 }
 
-export default Drone;
+export default Page;

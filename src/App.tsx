@@ -2,50 +2,53 @@
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
-import Drone from './components/Drone';
-import Drone440 from './components/Drone440';
+import Page from './components/Page';
 import { useEffect, useRef, useState } from 'react';
 import { createDevice } from "@rnbo/js";
 
 function App() {
   let [screen, setScreen] = useState("home");
   let [context, setContext] = useState(new AudioContext());
-  let [context440, setContext440] = useState(new AudioContext());
+  let [brown_noiseContext, setBrown_NoiseContext] = useState(new AudioContext());
+
   let droneGain = useRef(context.createGain());
+  let brownGain = useRef(brown_noiseContext.createGain());
 
   useEffect(() => {
     setup();
-  }, [])
+  }, []);
 
   const setup = async () => {
       let rawPatcher = await fetch("./export/patch.export.json");
-      let rawPatcher440 = await fetch("./export/440drone.export.json");
+      let rawPatcherBrown = await fetch("./export/brown_noise.export.json");
 
       let patcher = await rawPatcher.json();
-      let patcher440 = await rawPatcher440.json();
+      let patcherBrown = await rawPatcherBrown.json();
 
       let device = await createDevice({ context: context, patcher });
-      let device440 = await createDevice({context: context440, patcher: patcher440});
+      let deviceBrown = await createDevice({context: brown_noiseContext, patcher: patcherBrown});
 
       device.node.connect(context.destination);
+      deviceBrown.node.connect(brown_noiseContext.destination);
 
       droneGain.current.connect(context.destination);
       droneGain.current.gain.value = -1;
       device.node.connect(droneGain.current);
 
-
-      device440.node.connect(context440.destination);
+      brownGain.current.connect(brown_noiseContext.destination);
+      brownGain.current.gain.value = -1;
+      deviceBrown.node.connect(brownGain.current);
   };
 
 
 
   return (
     <div className="App">
-      <Header screen={screen} setScreen={setScreen} context={context} context440={context440}/>
+      <Header screen={screen} setScreen={setScreen} context={context} brown_noiseContext={brown_noiseContext}/>
       <div id="main">
         {screen === "home" && <Home />}
-        {screen === "drone" && <Drone context={context} droneGain={droneGain}/>}
-        {screen === "drone440" && <Drone440 context={context440}/>}
+        {screen === "drone" && <Page title={"Drone"} context={context} gainNode={droneGain}/>}
+        {screen === "brown_noise" && <Page title={"Brown Noise"} context={brown_noiseContext} gainNode={brownGain}/>}
       </div>
 
     </div>

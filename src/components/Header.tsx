@@ -1,7 +1,7 @@
-const Header = ({screen, setScreen, context, context440}: any) => {
+const Header = ({screen, setScreen, context, brown_noiseContext}: any) => {
   const suspendAll = () => {
     context.suspend()
-    context440.suspend()
+    brown_noiseContext.suspend()
   }
 
   return (
@@ -14,10 +14,10 @@ const Header = ({screen, setScreen, context, context440}: any) => {
         setScreen("drone")
         suspendAll();
         }}>Drone</button>}
-      {screen !== "drone440" && <button type="button" className="header-button" onClick={() => {
-        setScreen("drone440")
+      {screen !== "brown_noise" && <button type="button" className="header-button" onClick={() => {
+        setScreen("brown_noise")
         suspendAll();
-        }}>Drone440</button>}
+        }}>Brown Noise</button>}
     </div>
   )
 }
