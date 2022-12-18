@@ -6,9 +6,9 @@ const Page = ({title, context, gainNode}: any) => {
 
    const onOffSwitch = async () => {
     if (running) {
-      await context.suspend().then(() => setRunning(false));
+      await context.current.suspend().then(() => setRunning(false));
     } else {
-      await context.resume().then(() => setRunning(true));
+      await context.current.resume().then(() => setRunning(true));
     }
   }
 

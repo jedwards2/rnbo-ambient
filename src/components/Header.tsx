@@ -1,7 +1,7 @@
 const Header = ({screen, setScreen, context, brown_noiseContext}: any) => {
   const suspendAll = () => {
-    context.suspend()
-    brown_noiseContext.suspend()
+    context.current.suspend()
+    brown_noiseContext.current.suspend()
   }
 
   return (
