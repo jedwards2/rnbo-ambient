@@ -19,7 +19,7 @@ function App() {
   }, []);
 
   const setup = async () => {
-      let rawPatcher = await fetch("./export/patch.export.json");
+      let rawPatcher = await fetch("./export/oscil.export.json");
       let rawPatcherBrown = await fetch("./export/brown_noise.export.json");
 
       let patcher = await rawPatcher.json();
